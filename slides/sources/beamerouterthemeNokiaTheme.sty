@@ -1,0 +1,49 @@
+% This is the outer theme file for the Nokia Theme.
+% Copyright (c) 2016 Nokia Bell Labs
+% Natalya Rozhnova <natalya.rozhnova@nokia.com>
+% Anne Bouillard <anne.bouilard@nokia-bell-labs.com>
+
+%---------------------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerouterthemeNokiaTheme}[2016/12/16 v1.0.0 The Nokia Bell Labs Beamer Theme]
+
+%---------------------------------------------------------------------
+
+% The height of the header is 2.5 times the lineheight of the frame title
+\newlength{\beamer@height}
+\usebeamerfont{title_frame} %use the frame title font
+\setlength{\beamer@height}{3\baselineskip}
+
+% Width of the border ???
+
+%\newlength{\beamer@borderwidth}
+%\setlength{\beamer@borderwidth}{1.05mm}  % as small is the thickness of the border the whole circle goes up
+
+
+\mode<presentation>
+
+\setbeamertemplate{frametitle}
+{
+  \begin{minipage}[c][0.9\beamer@height][c]{\textwidth}
+    \usebeamercolor[fg]{title}\usebeamerfont{title_frame}\strut{}\insertframetitle\par
+    \usebeamercolor[fg]{Nokia_framesubtitle}\usebeamerfont{subtitle_frame}\strut{}\insertframesubtitle\par
+  \end{minipage}
+\vspace{-1.5cm}
+}
+
+% Useful for 3-column slides for Marcus
+\newcommand\ResumePanel[3]
+{
+  % Draw a rectangle with a resume line
+  \begin{textblock*}{\paperwidth}(#2,#3)
+    \begin{beamercolorbox}[ht=2.5ex,wd=\paperwidth,dp=1ex]{resumepanel}
+      \begin{minipage}[c][2ex][c]{\paperwidth}
+        \centering
+        \usebeamerfont{resumepanel}{#1}
+      \end{minipage}
+    \end{beamercolorbox}
+  \end{textblock*}
+}
+
+\mode<all>

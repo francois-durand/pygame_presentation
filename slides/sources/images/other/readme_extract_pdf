@@ -1,0 +1,1 @@
+pdftk full.pdf cat 12-15 output File_name.pdf

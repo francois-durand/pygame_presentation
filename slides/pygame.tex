@@ -1,0 +1,264 @@
+% !TeX spellcheck = en_US
+% !TeX program = xelatex
+
+%Possible values for aspectratio are: 1610, 149, 54, 43 and 32.
+\documentclass[aspectratio=169]{beamer}
+
+% Use this package on Windows if you have any XeTeX/LuaTeX related compilation problem 
+%\usepackage{fixltx2e}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{calc}
+%\usepackage[obeyspaces,spaces]{url}
+
+% Where to look for the pictures
+% Define the folder where you will keep pictures for this particular presentation
+% It is more convenient than precise a whole path for each picture independently
+% Example:
+\graphicspath{{./images/}}
+
+% To configure where to look for the template sources
+% This is the definition and some useful code to use for usefolder function
+% You don't need to modify anything here. 
+\makeatletter
+  \def\beamer@calltheme#1#2#3{%
+    \def\beamer@themelist{#2}
+    \@for\beamer@themename:=\beamer@themelist\do
+    {\usepackage[{#1}]{\beamer@themelocation/#3\beamer@themename}}}
+
+  \def\usefolder#1{
+    \def\beamer@themelocation{#1}
+  }
+  \def\beamer@themelocation{}
+
+% Where actually to look for the template sources
+% Put a path to the folder or, if you want, copy the corresponding sources into beamer themes' location of your latex distribution
+% Example:
+\usefolder{./sources/}
+
+%% The name of the template to use
+\usetheme{NokiaTheme}
+
+% To use the blue version of the theme
+%\UseBlueColor
+
+% To show grid on the background
+%\ShowGrid
+
+% To define the information class
+% By default it's "Nokia Internal Use"
+\renewcommand{\Classifier}{Public}
+
+% To change the year in copyright part
+% Default is current year
+%\renewcommand{\PresentationYear}{2018}
+
+%%%%%%%%%%%
+%
+% My macros
+%
+%%%%%%%%%%%
+
+\renewcommand{\emph}[1]{\textcolor{ClearTitle}{\bf #1}}
+\newcommand{\memph}[1]{\textcolor{myred}{#1}}
+
+
+%--------------------------------------------------------------------------------
+%
+\title{Introduction to Pygame}
+\author{\normalsize François Durand\\[5pt]}
+\date{\vspace{-.5cm}Python Workshop, 17 June 2020}
+
+%--------------------------------------------------------------------------------
+\begin{document}
+
+% Title page is compiled using the title, author etc filled above
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Sources}
+\url{https://fr.wikibooks.org/wiki/Pygame}, especially:
+\begin{itemize}
+\item \url{https://fr.wikibooks.org/wiki/Pygame/Introduction_\%C3\%A0_Pygame}
+\item \url{https://fr.wikibooks.org/wiki/Pygame/Introduction_au_module_Sprite}
+\item \url{https://fr.wikibooks.org/wiki/Pygame/Chimp_-_Ligne_par_ligne}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{What is Pygame?}
+\begin{itemize}
+\item \emph{Pygame} is a Python package that wraps the SDL library.
+\item \emph{SDL (Simple DirectMedia Layer)} is a cross-platform development library written in C, designed to provide access to \emph{multimedia}: 2D graphics, audio, keyboard, mouse and joystick.
+\item Pygame can be used to design \emph{games} but not only: anything that makes uses of a graphical interface, sound, etc. And in particular, it can be used for \emph{demos}.
+\item Pygame is \emph{not} designed to make \emph{GUIs} (with buttons, menus, etc). For that, you can use Tkinter.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Minimal Example}
+Cf.  \verb|minimal_example.py|.
+\begin{itemize}
+\item \verb|pygame.init()|: initialize all \emph{modules} of Pygame, such as \verb|pygame.display|, \verb|pygame.event|, \verb|pygame.image|, \verb|pygame.time|, \verb|pygame.sprite|, \verb|pygame.mixer|,  \verb|pygame.key|, \verb|pygame.mouse|, \verb|pygame.font| and \verb|pygame.transform|.
+\item \verb|screen = pygame.display.set_mode(size)|: create a \emph{Surface} object with the image to display.
+\item \verb|pygame.event.get()|: catches \emph{events} (quit, key strokes, etc).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Basics: Bouncing Ball (1)}
+Cf.  \verb|bouncing_ball.py|.
+
+\begin{itemize}
+\item \verb|clock = pygame.time.Clock()|: launch a \emph{clock}.
+\item \verb|ball = pygame.image.load("ball.gif").convert_alpha()|: create a \emph{Surface} object with the image of the ball.
+\begin{itemize}
+\item The \verb|convert_alpha()| is not strictly necessary, but it is a good habit to have.
+\item Depending on whether you want to deal with transparency, use \verb|convert()| or \verb|convert_alpha()|.
+\end{itemize} 
+\item \verb|ball_rect = ball.get_rect()|: create a \emph{Rect} object representing a rectangular zone.
+\begin{itemize}
+\item A Rect is just a convenient way to store \verb|x|, \verb|y|, \verb|width|, \verb|height|.
+\item But it also gives access to attributes (\verb|left|, \verb|right|, \verb|top|, \verb|bottom|, \verb|center|, \verb|topleft|...) and methods (\verb|move|, \verb|colliderect|...).
+\item Default initialization: \verb|x = y = 0|.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Basics: Bouncing Ball (2)}
+Cf.  \verb|bouncing_ball.py|.
+
+\begin{itemize}
+\item \verb|ball_rect.move_ip(ball_speed)|: modify \verb|ball_rect| ``in place'' so that it contains the \emph{new coordinates}.
+\begin{itemize}
+\item Variant: \verb|ball_rect = ball_rect.move(ball_speed)|.
+\end{itemize}
+\item \verb|screen.fill(black)|: to start preparing the new version of the image, we cover everything with a black background, but the new version of the image is not displayed yet (\emph{double buffer}).
+\item \verb|screen.blit(ball, ball_rect)|: \emph{copy} the pixels of \verb|ball| on \verb|screen|, in the coordinates given by \verb|ball_rect|.
+\item \verb|pygame.display.update()|: actually \emph{display} the prepared image.
+\begin{itemize}
+\item Variant: \verb|pygame.display.flip()| would do the same thing, but has less options.
+\end{itemize}
+\item \verb|clock.tick(100)|: \emph{wait} 0.01 s.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{More on Surface and Rect: Bouncing Ball in a Box}
+Cf.  \verb|bouncing_ball_in_a_box.py|.
+\begin{itemize}
+\item \verb|box_empty|: a Surface to store the picture of the \emph{empty box}.
+\item \verb|box|: a Surface where we draw \emph{the box + the ball}.
+\item \verb|ball_rect|: note that \verb|ball_rect|, by itself, does not ``know'' that its coordinates are relative to the box. They are just \emph{plain old numbers}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Sprite: Bouncing Balls}
+Cf.  \verb|bouncing_balls.py|.
+\begin{itemize}
+\item \verb|class Ball(pygame.sprite.Sprite)|: a \emph{Sprite} must have attributes \verb|image| and \verb|rect|, and a method \verb|update|.
+\item \verb|def update(self)|: the method \emph{need not deal with display}, it just says what the sprite should do when an update is asked, typically once per frame. 
+\item \verb|all_sprites = pygame.sprite.RenderPlain([Ball() for _ in| \verb|range(10)])|: generally, a Sprite should belong to one or more \emph{Group} objects. There are several subclasses of Group with various capabilities: GroupSingle, RenderPlain, RenderClear, RenderUpdates. For most usages, RenderPlain is fine.
+\item \verb|all_sprites.update()|: call the method \verb|update| of all sprites.
+\item \verb|all_sprites.draw(screen)|: call the built-in method \verb|draw| of all sprites.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Remark: Back to The Single Bouncing Ball Example}
+\verb|bouncing_ball_sprite.py|.
+
+This new version using Sprite is slightly longer than the original, but it is \emph{cleaner} and therefore easier to \emph{maintain} and \emph{expand}.
+\end{frame}
+
+\begin{frame}[fragile]{Collision and Sound: Bouncing Balls with Collision}
+Cf. \verb|bouncing_balls_collision.py|
+\begin{itemize}
+\item \verb|self.explode_sound = pygame.mixer.Sound('balloon_pop.wav')|: create a \emph{Sound} object.
+\item \verb|self.explode_sound.play()|: \emph{play} the sound.
+\item \verb|pygame.sprite.spritecollide(red_ball, yellow_balls, dokill=1)|: return a \emph{list} of the yellow balls collided by the red ball.
+\begin{itemize}
+\item \verb|dokill=1|: remove the collided balls from the group.
+\item By default, collision is determined only by the \verb|rect| attribute of each sprite, but it is possible to specify a custom function for collision detection (next slide).
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Cleaner Collision: Bouncing Balls with Collision, revisited}
+Cf. \verb|bouncing_balls_collision_circle.py|
+\begin{itemize}
+\item \verb|self.radius = self.rect.width / 2|: our sprite will need a \verb|radius| attribute.
+\item \verb|pygame.sprite.spritecollide(red_ball, yellow_balls, dokill=1,| \verb|collided=pygame.sprite.collide_circle)|: use the method \verb|collide_circle| for collision detection.
+\begin{itemize}
+\item Other methods are available, in particular \verb|collide_rect_ratio|. Used with a ratio $< 1$, it gives often satisfactory results without needing to compute an exact ``hit mask''.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Group Collision: Bouncing Balls with Contamination}
+Cf. \verb|bouncing_balls_contamination.py|.
+\begin{itemize}
+\item \verb|pygame.sprite.groupcollide(healthy\_balls, contaminated\_balls,| \verb|0, 0)|: \emph{list} the healthy balls that collide with contaminated balls.
+\item \verb|healthy_balls.remove(ball)|: \emph{remove} the ball from the group.
+\item \verb|contaminated_balls.add(ball)|: \emph{add} the ball to the group.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Use the Keyboard: Collide Them All!}
+Cf. \verb|collide_them_all.py|.
+\begin{itemize}
+\item \verb|pressed_keys = pygame.key.get_pressed()|: a \emph{tuple of Booleans}, indicating for each key if it is pressed or not.
+\item \verb|pressed_keys[pygame.K_UP]|: the constant \verb|pygame.K_UP| is the \emph{number} representing the ``up arrow'' key.
+\item In \verb|BallPlayer.update|, the syntax with multiple ``ifs'' accounts for the cases where several keys are pressed \emph{simultaneously}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{A Simple Game: Chimp (1)}
+Cf. \verb|chimp.py|.
+\begin{itemize}
+\item \verb|if not pygame.font|: when a module's import fails, its value is \emph{None}.
+\item \verb|def load_image|, \verb|def load_sound|: it is convenient to have \emph{import functions} that are a bit more sophisticated than the built-in ones.
+\item \verb|image.set_colorkey(colorkey, pygame.RLEACCEL)|: use a color in the original image as representing \emph{transparency}.
+\item \verb|pos = pygame.mouse.get_pos()|: get the position of the \emph{mouse}.
+\item \verb|hit_box = self.rect.inflate(-5, -5)|: define a \emph{slightly smaller} rect (to be used for collision detection).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{A Simple Game: Chimp (2)}
+Cf. \verb|chimp.py|.
+\begin{itemize}
+\item \verb|self.image = pygame.transform.flip(self.image, 1, 0)|: \emph{flip the image} of the chimp when changing direction.
+\item \verb|self.image = pygame.transform.rotate(self.original_image,| \verb|self.rotation_angle)|: \emph{rotate the image} of the chimp when hit.
+\item \verb|pygame.display.set_caption("Monkey Fever")|: change the \emph{title} of the window.
+\item \verb|pygame.font|: this module is used to put \emph{text} on a Surface.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Summary: Pygame Modules}
+
+\begin{itemize}
+\item \verb|pygame.display|: the display window.
+\item \verb|pygame.event|: catch events like \verb|pygame.QUIT|, \verb|pygame.KEYDOWN|, etc.
+\item \verb|pygame.image|: images.
+\item \verb|pygame.time|: clock.
+\item \verb|pygame.sprite|: sprites.
+\item \verb|pygame.mixer|: sounds.
+\item \verb|pygame.key|: keyboard.
+\item \verb|pygame.mouse|: mouse.
+\item \verb|pygame.font|: text.
+\item \verb|pygame.transform|: transform images.
+\item There are several others, such as \verb|pygame.draw| to draw simple shapes like lines, polygons, etc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thanks For Your Attention!}
+\begin{center}	
+\includegraphics[width=14cm]{image_conclu03}
+\end{center}	
+\end{frame}
+
+% "Nokia" final slide
+\begin{frame}
+\end{frame}
+
+\end{document}

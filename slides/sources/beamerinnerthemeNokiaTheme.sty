@@ -1,0 +1,120 @@
+% This is the inner theme file for the Nokia Theme.
+% Copyright (c) 2016 Nokia Bell Labs
+% Natalya Rozhnova <natalya.rozhnova@nokia.com>
+% Anne Bouillard <anne.bouilard@nokia-bell-labs.com>
+
+%---------------------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerinnerthemeNokiaTheme}[2016/12/16 v1.0.0 The Nokia Bell Labs Beamer Theme]
+
+%---------------------------------------------------------------------
+
+\mode<presentation>
+
+% Title page
+\setbeamertemplate{title page}
+{
+  \begin{minipage}[c][\textheight][c]{\textwidth}
+    \centering
+
+    {\usebeamerfont{institute}\insertinstitute}\vspace*{30pt}
+
+    {\usebeamerfont{title}\TitleColor\inserttitle}%\vspace*{10pt}
+
+    {\usebeamerfont{subtitle}\TitleColor\insertsubtitle}\vspace*{30pt}
+
+    {\usebeamerfont{author}\TitleColor\insertauthor}\vspace*{30pt}
+
+    {\usebeamerfont{date}\TitleColor\insertdate}\vspace*{\baselineskip}
+
+  \end{minipage}
+}
+
+%------------------------------------------------------------------
+
+%\setbeamertemplate{background}
+%{
+%  %Nokia background
+%%  \ifnum\c@framenumber=1
+%  \ifnum\value{page}=1
+%       \includegraphics[width=\paperwidth, height=\paperheight, keepaspectratio]{\ImageFolder/background_title_slide.pdf}
+%  \else \relax
+%    \ifnum\value{page}<\insertdocumentendpage
+%       \includegraphics[width=\paperwidth, height=\paperheight, keepaspectratio]{\BackgroundsFolder/background_white_default.pdf}
+%    \else \relax
+%      \includegraphics[width=\paperwidth, height=\paperheight, keepaspectratio]{\ImageFolder/background_final_slide.pdf}
+%    \fi
+%  \fi
+%}
+
+\setbeamertemplate{background}
+{
+	%Nokia background
+	%  \ifnum\c@framenumber=1
+	\ifnum\value{page}=1
+	\includegraphics[width=\paperwidth, height=\paperheight]
+	{\ImageFolder/background_title_slide.pdf}
+	\else \relax
+	\ifnum\value{page}<\insertdocumentendpage
+	\includegraphics[width=\paperwidth, height=\paperheight]
+	{\BackgroundsFolder/background_white_default.pdf}
+	\else \relax
+	\includegraphics[width=\paperwidth, height=\paperheight] {\ImageFolder/background_final_slide.pdf}
+	\fi
+	\fi
+}
+
+%\setbeamertemplate{footline}[text line]
+%{
+%  \begin{beamercolorbox}[wd = \paperwidth, leftskip=0.05\paperwidth]{footer}
+%    \ifnum\value{page}=1
+%      \parbox{0.95\linewidth}{\usebeamerfont{footer}\TitleColor\vspace*{-23pt}\hspace*{0.2cm} \copyright\hspace*{0.05cm}\PresentationYear\hfill\hspace*{0.05cm}\OurCompany\hfill\parbox{0.475\linewidth}{\vspace*{-2.3pt}\hfill\Classifier\hfill}}
+%    \else \relax
+%      \ifnum\value{page}<\insertdocumentendpage%
+%        \parbox{0.95\linewidth}{\usebeamerfont{footer}\usebeamercolor[fg]{title}\vspace*{-23pt}\insertpagenumber \hspace*{0.2cm} \copyright\hspace*{0.05cm}\PresentationYear\hfill\hspace*{0.05cm}\OurCompany\hfill\parbox{0.475\linewidth}{\vspace*{-2.3pt}\hfill\Classifier\hfill}}
+%      \else \relax
+%      \fi
+%    \fi
+%  \end{beamercolorbox}
+%}
+
+\setbeamertemplate{footline}[text line]
+{
+  \begin{beamercolorbox}[wd = \paperwidth, leftskip=0.05\paperwidth]{footer}
+    \ifnum\value{page}=1
+      \parbox{0.9\linewidth}{\usebeamerfont{footer}\TitleColor\vspace*{-23pt}\makebox[4.5em][c]{} \copyright\hspace*{0.05cm}\PresentationYear\hspace*{0.05cm}\OurCompany\hfill\Classifier\hfill{}\rule{2.15cm}{0pt}}
+    \else \relax
+      \ifnum\value{page}<\insertdocumentendpage%
+        \parbox{0.9\linewidth}{\usebeamerfont{footer}\usebeamercolor[fg]{title}\vspace*{-23pt}\makebox[4.5em][c]{\insertframenumber{} / \inserttotalframenumber} \copyright\hspace*{0.05cm}\PresentationYear\hspace*{0.05cm}\OurCompany\hfill\Classifier\hfill{}\rule{2.15cm}{0pt}}
+      \else \relax
+      \fi
+    \fi
+  \end{beamercolorbox}
+}
+
+\newcommand{\Classifier}{Nokia internal use}
+\newcommand{\PresentationYear}{\the\year}
+\newcommand{\OurCompany}{Nokia}
+
+%An alternative way for redefining the footline to be able to put the information classification from our .tex
+%\newcommand\SetFootline[1]{
+%\setbeamertemplate{footline}[text line]{%
+%\begin{beamercolorbox}[wd = \paperwidth, leftskip=0.05\paperwidth]{footer}
+%\ifnum\value{page}=1
+%\parbox{0.55\linewidth}{\usebeamerfont{footer}\usebeamercolor[fg]{title}\vspace*{-23pt}\hfill#1\hfill}
+%\else \relax
+%\ifnum\value{page}<\insertdocumentendpage%
+%\parbox{0.55\linewidth}{\usebeamerfont{footer}\usebeamercolor[fg]{title}\vspace*{-23pt}\insertpagenumber\hfill#1\hfill}
+%\else \relax
+%\fi
+%\fi
+%\end{beamercolorbox}
+%}
+%}
+%Then in your .tex right after \begin{document}
+%\SetFootline{Public}
+
+\setbeamertemplate{bibliography item}[text]
+
+\mode<all>

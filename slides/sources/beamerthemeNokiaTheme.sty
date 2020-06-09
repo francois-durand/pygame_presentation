@@ -1,0 +1,133 @@
+% This is the main beamer theme file for the Nokia Theme.
+% Copyright (c) 2016 Nokia Bell Labs
+% Natalya Rozhnova <natalya.rozhnova@nokia.com>
+% Anne Bouillard <anne.bouilard@nokia-bell-labs.com>
+
+%---------------------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeNokiaTheme}[2016/12/16 v1.0.0 The Nokia Bell Labs Beamer Theme]
+
+%---------------------------------------------------------------------
+
+\mode<presentation>
+
+% Requirements
+\RequirePackage{fontspec}
+\defaultfontfeatures{Ligatures={TeX}}
+\RequirePackage[absolute,overlay]{textpos}
+\RequirePackage{tikz}
+
+% Setting
+\usefonttheme{NokiaTheme}
+\useinnertheme{NokiaTheme}
+\useoutertheme{NokiaTheme}
+\usecolortheme{NokiaTheme}
+
+% Defaults
+\newcommand\ImageFolder{\beamer@themelocation/images/white}
+\newcommand\BackgroundsFolder{\beamer@themelocation/images/defaults}
+\newcommand\TitleColor{\usebeamercolor[fg]{title}}
+
+% Some redefinitions for a blue version of the theme
+\newcommand\UseBlueColor
+{
+  % Configure a path to the backgrounds
+  \renewcommand\ImageFolder{\beamer@themelocation/images/blue}
+
+  % To change the font size for the blue frames
+  \renewcommand\TitleColor{\usebeamercolor[fg]{white_title}}
+}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+%\setbeamertemplate{blocks}[rounded][shadow=false]
+\addtobeamertemplate{block begin}{\pgfsetfillopacity{1}}{\pgfsetfillopacity{1}}
+\addtobeamertemplate{block begin}{\setlength\abovedisplayskip{0pt}}
+
+%-------configure colors of the blocks
+%\setbeamercolor{block title}{fg=olive,bg=olive!20}
+%\setbeamercolor{block body}{fg=blue,bg=blue!20}
+%-------
+
+%-------configure size of the blocks (using minipages)
+%defaults
+\newlength{\blockheight}
+\setlength{\blockheight}{.5\textheight}
+\newlength{\blockwidth}
+\setlength{\blockwidth}{.31\textwidth}
+\newenvironment{MyBlock}[3]{%
+\begin{minipage}[t][#2][t]{#3}%
+\begin{block}{#1}%
+}{%
+\end{block}%
+\end{minipage}%
+}
+%-------configure the block width
+%\addtobeamertemplate{block begin}{%
+%  \setlength{\textwidth}{0.9\textwidth}%
+%}{}
+%-------
+
+%If you want to use a gif movie, put this into your .tex
+% in preamble
+%\usepackage{movie15}
+% in documenet
+%\includemovie{1cm}{1cm}{ani.gif}
+%
+%-------To precise custom block width
+\newenvironment<>{varblock}[2][.9\textwidth]{%
+  \setlength{\textwidth}{#1}
+  \begin{actionenv}#3%
+    \def\insertblocktitle{#2}%
+    \par%
+    \usebeamertemplate{block begin}}
+  {\par%
+    \usebeamertemplate{block end}%
+  \end{actionenv}}
+%-------
+
+%\setbeamercovered{invisible}
+%\setbeamercovered{transparent}
+%to add a height value to a title or other
+\newcommand{\addheight}[1]
+{
+  \parbox{0pt}{\rule{0pt}{#1}}%{0pt}{0.1ex}}
+}
+%then use \addheight before the line where you want to add the space
+%
+
+\newcommand{\ShowGrid}
+{
+\setbeamertemplate{background}{
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[help lines,xstep=.25,ystep=.25,gray!20] (current page.south west) grid (current page.north east);
+        \draw[help lines,xstep=1,ystep=1,gray] (current page.south west) grid (current page.north east);
+        \foreach \x in {-15,-14.5,...,15} {
+            \node [anchor=north, gray] at (\x,0) {\tiny \x};
+            \node [anchor=west,gray] at (0,\x) {\tiny \x};
+        }
+    \end{tikzpicture}
+}
+%  \setbeamertemplate{background}[grid][step=#1]
+}
+
+%For itemize: define the items' style
+\setbeamertemplate{itemize item}{\small\color{ClearTitle}$\bullet$}
+\setbeamertemplate{itemize subitem}{\small\color{ClearTitle}$-$}
+\setbeamertemplate{itemize subsubitem}{\tiny\color{ClearTitle}$\bullet$}
+
+%For enumerate: define the enumerate's items style
+\setbeamercolor{item projected}{bg=ClearTitle}
+\setbeamertemplate{enumerate item}[circle]
+
+%{\small\color{ClearTitle}\insertnumlabel}
+\setbeamertemplate{enumerate subitem}[default]
+\setbeamertemplate{enumerate subsubitem}[default]
+
+%Possible ways but didn't work well for me
+%\setbeamertemplate{itemize item}{\color{yellow}$\star$}
+%\setbeamertemplate{itemize subitem}{$\blacktriangleright$}
+%\setbeamertemplate{itemize items}[circle] % default, square, circle, ball
+
+\mode<all>

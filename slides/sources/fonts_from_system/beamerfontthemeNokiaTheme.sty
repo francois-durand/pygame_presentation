@@ -1,0 +1,62 @@
+% This is the font theme file for the Nokia Theme.
+% Copyright (c) 2016 Nokia Bell Labs
+% Natalya Rozhnova <natalya.rozhnova@nokia.com>
+
+%---------------------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerfontthemeNokiaTheme}[2016/12/16 v1.0.0 The Nokia Bell Labs Beamer Theme]
+
+%---------------------------------------------------------------------
+
+\mode<presentation>
+
+% Special
+%\newcommand\FontsFolder{C:/Users/nrozhnov/Documents/My_docs/beamer_theme/Linux/sources/Fonts/}
+
+% More general
+%\newcommand\FontsFolder{\beamer@themelocation/Fonts/}
+
+\setmainfont[%NormalFont = NokiaPureText-Light.ttf,
+ BoldFont = Nokia Pure Text Bold]{Nokia Pure Text Light}
+
+\setsansfont[%NormalFont = NokiaPureText-Light.ttf,
+ BoldFont = Nokia Pure Text Bold]{Nokia Pure Text Light}
+
+%% definitions for fonts of the different elements
+\newfontfamily{\NokiaTitle}{Nokia Pure Headline Ultra Light}
+%\newfontfamily{\NokiaAuthor}{NokiaPureText-Light.ttf}
+\newfontfamily{\NokiaHeadLight}{Nokia Pure Headline Light}
+\newfontfamily{\NokiaTextLight}{Nokia Pure Text Light}
+\newfontfamily{\NokiaPureTextBold}{Nokia Pure Text Bold}
+\newfontfamily{\NokiaPureHeadlineBold}{Nokia Pure Headline Bold}
+\newfontfamily{\NokiaPureHeadlineExtraBold}{Nokia Pure Headline Extra Bold}
+\newfontfamily{\NokiaPureHeadlineRegular}{Nokia Pure Headline}
+\newfontfamily{\NokiaPureTextMedium}{Nokia Pure Text Medium}
+\newfontfamily{\NokiaPureTextRegular}{Nokia Pure Text}
+               
+%\fontsize{font size}{baseline skip}
+\setbeamerfont{title}{family=\NokiaTitle, size = \fontsize{32}{30}}%\Large} 
+\setbeamerfont{institute}{family=\NokiaTextLight, size = \fontsize{14}{15}}%\footnotesize}
+\setbeamerfont{subtitle}{family=\NokiaHeadLight, size = \large}
+\setbeamerfont{author}{family=\NokiaTextLight, size = \fontsize{14}{15}}%\normalsize}
+\setbeamerfont{date}{family=\NokiaTextLight, size = \footnotesize}
+\setbeamerfont{footer}{family=\NokiaTextLight, size = \fontsize{5}{5}}
+\setbeamerfont{title_frame}{family=\NokiaHeadLight, size = \fontsize{15}{17}}
+\setbeamerfont{subtitle_frame}{family=\NokiaHeadLight, size = \fontsize{10}{11}}
+\setbeamerfont{resumepanel}{family=\NokiaPureTextBold, size = \fontsize{10}{12}}%, series=\bf}
+\setbeamerfont{normal text}{family=\NokiaTextLight, size = \normalsize}
+
+% itemize font
+\setbeamerfont{itemize/enumerate body}{family=\NokiaTextLight,size={\fontsize{12}{12}},series = \normalfont}
+\setbeamerfont{itemize/enumerate subbody}{family=\NokiaTextLight,size={\fontsize{10}{10}},series = \normalfont}
+
+% block font
+\setbeamerfont{block title}{family=\NokiaHeadLight,size=\fontsize{10}{10}}\setbeamerfont{block body}{family=\NokiaPureTextBold,size=\fontsize{6.5}{6.5}}
+
+\setbeamerfont{normaltext}{family=\NokiaTextLight,size=\fontsize{12}{12}}
+\setbeamerfont{structure}{family=\NokiaTextLight,size=\fontsize{12}{12}}
+
+%% setting the above definitions
+
+\mode<all>
